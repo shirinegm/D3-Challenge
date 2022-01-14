@@ -37,4 +37,25 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         data.healthcare = +data.healthcare;
     });
 
+    // Create Scale Functions
+    let xLinearScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.poverty)])
+        .range([0, width]);
+
+    let yLinearScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.healthcare)])
+        .range([height, 0]);
+
+    // Create axis functions
+    let bottomAxis = d3.axisBottom(xLinearScale);
+    let leftAxis = d3.axisLeft(yLinearScale);
+
+    //Append axis to chart and slide it down
+    chartGroup.append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxis);
+    
+    chartGroup.append("g")
+        .call(leftAxis)
+
 });
