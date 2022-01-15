@@ -88,7 +88,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     // Label for y axis
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 40)
+      .attr("y", 0 - margin.left + 30)
       .attr("x", 40 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "axisText")
