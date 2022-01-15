@@ -94,7 +94,22 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
       .attr("class", "axisText")
       .text("Lacks Healthcare (%)");
 
-    
+    // Because I am not native to the US, I don't know the abbreviations of each state
+    // So I need a tooltip (it also helps with overlapping circles)
+    let toolTip = d3.tip()
+      .attr("class", "tooltip")
+      .offset([-5, 10])
+      .html(d => d.state);
+
+    chartGroup.call(toolTip);
+
+    // Make the tooltip appear on hover then disappear on mouseout
+    node.on("mouseover", function(data) {
+        toolTip.show(data, this);
+      })
+        .on("mouseout", function(data, index) {
+          toolTip.hide(data);
+        });
 
   }).catch(function(error) {
     console.log(error);
