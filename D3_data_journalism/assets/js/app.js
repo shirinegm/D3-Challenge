@@ -73,7 +73,8 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .attr("opacity", ".4");
     
     node.append("text")
-        .text(d => d.state);
+        .text(d => d.abbr)
+        .attr("text-anchor", "middle");
 
 
 });
