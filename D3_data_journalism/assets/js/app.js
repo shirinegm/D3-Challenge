@@ -77,4 +77,25 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .attr("text-anchor", "middle") //center the text horizontally
         .attr("dy", ".35em") //offset the text on the y axis 
         .style("fill", "white"); // change color
+
+    // Create axes labels
+    // Label for X axis
+    chartGroup.append("text")
+      .attr("transform", `translate(${width - 100}, ${height - 10})`)
+      .attr("class", "axisText")
+      .text("Poverty (%)");
+    
+    // Label for y axis
+    chartGroup.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left + 40)
+      .attr("x", 40 - (height / 2))
+      .attr("dy", "1em")
+      .attr("class", "axisText")
+      .text("Lacks Healthcare (%)");
+
+    
+
+  }).catch(function(error) {
+    console.log(error);
 });
