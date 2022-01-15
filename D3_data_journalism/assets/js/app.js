@@ -60,7 +60,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     
 
 
-    // Add node corresponding to the data points so that we can add circles and text to them
+    // Add node corresponding to the data points so that we can add circles and text to them since appending text to circles doesn work
     let node = chartGroup.selectAll("node")
         .data(data)
         .enter()
@@ -71,31 +71,9 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .attr("r", "10")
         .attr("fill", "black")
         .attr("opacity", ".4");
-
-    // Create circles for each data point
-    // let circlesGroup = chartGroup.selectAll("circle")
-    // .data(data)
-    // .enter()
-    // .append("circle")
-    // .attr("cx", d => xLinearScale(d.poverty))
-    // .attr("cy", d => yLinearScale(d.healthcare))
-    // .attr("r", "10")
-    // .attr("fill", "black")
-    // .attr("opacity", ".4");
-
-
-    // Add text to the circles 
-    //let elemEnter = elem.enter()
-    // circlesGroup.append("text")
-    //     .style("fill", "red")   // fill the text with the colour black
-    //     .attr("x", 200)           // set x position of left side of text
-    //     .attr("y", 100)           // set y position of bottom of text
-    //     .attr("dy", ".35em")           // set offset y position
-    //     .attr("text-anchor", "middle")
-    //     .text(function(data){return data.state})
-    //     .style("fill", "black")
-
-    //
+    
+    node.append("text")
+        .text(d => d.state);
 
 
 });
