@@ -68,13 +68,13 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .attr("transform", d => `translate(${xLinearScale(d.poverty)}, ${yLinearScale(d.healthcare)})`);
     
     node.append("circle")
-        .attr("r", "10")
+        .attr("r", "15")
         .attr("fill", "black")
         .attr("opacity", ".4");
     
     node.append("text")
         .text(d => d.abbr)
-        .attr("text-anchor", "middle");
-
-
+        .attr("text-anchor", "middle") //center the text horizontally
+        .attr("dy", ".35em") //offset the text on the y axis 
+        .style("fill", "white"); // change color
 });
