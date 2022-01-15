@@ -57,5 +57,17 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     
     chartGroup.append("g")
         .call(leftAxis)
+    
+
+    // Create circles for each data point
+    let circlesGroup = chartGroup.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xLinearScale(d.poverty))
+    .attr("cy", d => yLinearScale(d.healthcare))
+    .attr("r", "10")
+    .attr("fill", "black")
+    .attr("opacity", ".4");
 
 });
