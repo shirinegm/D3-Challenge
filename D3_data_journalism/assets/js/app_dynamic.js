@@ -3,12 +3,12 @@ console.log("app_dynamic.js loaded")
 
 // Set up the svg area size
 let svgWidth = 720;
-let svgHeight = 500;
+let svgHeight = 550;
 
 let margin = {
   top: 20,
   right: 20,
-  bottom: 40,
+  bottom: 100,
   left: 20
 };
 
@@ -147,7 +147,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     // Labels for X axis
 
     let xlabelsGroup = chartGroup.append("g")
-    .attr("transform", `translate(${width / 2}, ${height + 20})`);
+    .attr("transform", `translate(${200 + width / 2}, ${height + 20})`);
 
     let povertyLabel = xlabelsGroup.append("text")
     .attr("x", 0)
@@ -158,14 +158,14 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
 
     let ageLabel = xlabelsGroup.append("text")
     .attr("x", 0)
-    .attr("y", 30)
+    .attr("y", 35)
     .attr("value", "age") // value to grab for event listener
     .classed("inactive", true)
     .text("Age in Years");
 
     let incomeLabel = xlabelsGroup.append("text")
       .attr("x", 0)
-      .attr("y", 40)
+      .attr("y", 50)
       .attr("value", "income") // value to grab for event listener
       .classed("inactive", true)
       .text("Household Income (%)");
