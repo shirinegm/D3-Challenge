@@ -82,7 +82,7 @@ function renderNodes(node, newXScale, clickedXAxis, newYaxis, clickedYaxis) {
 
   node.transition()
     .duration(1000)
-    .attr("transform", d => `translate(${newXScale(d[clickedXAxis])}, ${newYScale(d[clickedYAxis])})`);
+    .attr("transform", d => `translate(${newXScale(d[clickedXAxis])}, ${newYaxis(d[clickedYAxis])})`);
 
   return node;
 } 
@@ -107,13 +107,9 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     });
 
     // Create Scale Functions
-    let xLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.poverty)])
-        .range([0, width]);
+    let xLinearScale = xScale(data, clickedXAxis);
 
-    let yLinearScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.healthcare)])
-        .range([height, 0]);
+    let yLinearScale = yScale(data, clickedYAxis);
 
     // Create axis functions
     let bottomAxis = d3.axisBottom(xLinearScale);
@@ -134,7 +130,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .data(data)
         .enter()
         .append("g")
-        .attr("transform", d => `translate(${xLinearScale(d.poverty)}, ${yLinearScale(d.healthcare)})`);
+        .attr("transform", d => `translate(${xLinearScale(d[clickedXAxis])}, ${yLinearScale(d[clickedYAxis])})`);
     
     node.append("circle")
         .attr("r", "15")
@@ -147,21 +143,64 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         .attr("dy", ".35em") //offset the text on the y axis 
         .style("fill", "white"); // change color
 
-    // Create axes labels
-    // Label for X axis
-    chartGroup.append("text")
-      .attr("transform", `translate(${width - 100}, ${height - 10})`)
-      .attr("class", "axisText")
-      .text("Poverty (%)");
+    // Create axes labels group now that we have more than one label
+    // Labels for X axis
+
+    let xlabelsGroup = chartGroup.append("g")
+    .attr("transform", `translate(${width / 2}, ${height + 20})`);
+
+    let povertyLabel = xlabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("value", "poverty") // value to grab for event listener
+    .classed("active", true)
+    .text("In Poverty (%)");
+
+    let ageLabel = xlabelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 30)
+    .attr("value", "age") // value to grab for event listener
+    .classed("inactive", true)
+    .text("Age in Years");
+
+    let incomeLabel = xlabelsGroup.append("text")
+      .attr("x", 0)
+      .attr("y", 40)
+      .attr("value", "income") // value to grab for event listener
+      .classed("inactive", true)
+      .text("Household Income (%)");
     
-    // Label for y axis
-    chartGroup.append("text")
+    // Labels for y axis
+    let ylabelsGroup = chartGroup.append("g")
+    .attr("transform", `translate( ${40 - (height / 2)}, ${0 - margin.left + 30})`);
+
+    let healthcareLabel = ylabelsGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left + 30)
-      .attr("x", 40 - (height / 2))
+      .attr("y", 0 - margin.left)
+      .attr("x", 0 - (height / 2))
+      .attr("value", "healthcare")
       .attr("dy", "1em")
-      .attr("class", "axisText")
+      .classed("active", true)
       .text("Lacks Healthcare (%)");
+
+    let smokesLabel = ylabelsGroup.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 10 - (height / 2))
+      .attr("value", "smokes")
+      .attr("dy", "1em")
+      .classed("inactive", true)
+      .text("Smokers (%)");
+
+    let obeseLsabel = ylabelsGroup.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x", 20 - (height / 2))
+      .attr("value", "obesity")
+      .attr("dy", "1em")
+      .classed("inactive", true)
+      .text("Obesity (%)");
+
 
     // // Because I am not native to the US, I don't know the abbreviations of each state
     // // So I need a tooltip (it also helps with overlapping circles)
