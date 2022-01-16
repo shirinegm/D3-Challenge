@@ -67,7 +67,7 @@ function renderXAxis(newXScale, xAxis) {
   return xAxis;
 }
 //Function to render Y axis
-function renderXAxis(newYScale, yAxis) {
+function renderYAxis(newYScale, yAxis) {
   var leftAxis = d3.axisLeft(newYScale);
 
   yAxis.transition()
@@ -116,11 +116,11 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     let leftAxis = d3.axisLeft(yLinearScale);
 
     //Append axis to chart and slide it down
-    chartGroup.append("g")
+    let xAxis = chartGroup.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
     
-    chartGroup.append("g")
+    let yAxis = chartGroup.append("g")
         .call(leftAxis)
     
 
@@ -218,7 +218,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         xLinearScale = xScale(data, clickedXAxis);
 
         // updates x axis with transition
-        xAxis = renderAxes(xLinearScale, xAxis);
+        xAxis = renderXAxis(xLinearScale, xAxis);
 
         // updates circles with new x values
         node = renderNodes(node, xLinearScale, clickedXAxis, yLinearScale, clickedYAxis);
@@ -277,7 +277,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         yLinearScale = yScale(data, clickedYAxis);
 
         // updates x axis with transition
-        yAxis = renderAxes(yLinearScale, yAxis);
+        yAxis = renderYAxis(yLinearScale, yAxis);
 
         // updates circles with new y values
         node = renderNodes(node, xLinearScale, clickedXAxis, yLinearScale, clickedYAxis);
