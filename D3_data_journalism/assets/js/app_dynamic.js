@@ -56,10 +56,41 @@ function yScale(data, clickedYAxis) {
 
 }
 
+// Function to render X axis
+function renderXAxis(newXScale, xAxis) {
+  var bottomAxis = d3.axisBottom(newXScale);
+
+  xAxis.transition()
+    .duration(1000)
+    .call(bottomAxis);
+
+  return xAxis;
+}
+//Function to render Y axis
+function renderXAxis(newYScale, yAxis) {
+  var leftAxis = d3.axisLeft(newYScale);
+
+  yAxis.transition()
+    .duration(1000)
+    .call(leftAxis);
+
+  return yAxis;
+}
+
+// Function to update data nodes (circles plus state label)
+function renderNodes(node, newXScale, clickedXAxis, newYaxis, clickedYaxis) {
+
+  node.transition()
+    .duration(1000)
+    .attr("transform", d => `translate(${newXScale(d[clickedXAxis])}, ${newYScale(d[clickedYAxis])})`);
+
+  return node;
+} 
 
 
 
-// Read the data
+
+// Read the data and initialize default axes
 d3.csv("./assets/data/data.csv").then(function(data, err) {
     if (err) throw err;
 
@@ -69,6 +100,10 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
     data.forEach(function(data) {
         data.poverty = +data.poverty;
         data.healthcare = +data.healthcare;
+        data.age = parseFloat(data.age);
+        data.income = parseFloat(data.income);
+        data.smokes = parseFloat(data.smokes);
+        data.obesity = parseFloat(data.obesity);
     });
 
     // Create Scale Functions
@@ -128,22 +163,22 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
       .attr("class", "axisText")
       .text("Lacks Healthcare (%)");
 
-    // Because I am not native to the US, I don't know the abbreviations of each state
-    // So I need a tooltip (it also helps with overlapping circles)
-    let toolTip = d3.tip()
-      .attr("class", "tooltip")
-      .offset([-5, 10])
-      .html(d => d.state);
+    // // Because I am not native to the US, I don't know the abbreviations of each state
+    // // So I need a tooltip (it also helps with overlapping circles)
+    // let toolTip = d3.tip()
+    //   .attr("class", "tooltip")
+    //   .offset([-5, 10])
+    //   .html(d => d.state);
 
-    chartGroup.call(toolTip);
+    // chartGroup.call(toolTip);
 
-    // Make the tooltip appear on hover then disappear on mouseout
-    node.on("mouseover", function(data) {
-        toolTip.show(data, this);
-      })
-        .on("mouseout", function(data, index) {
-          toolTip.hide(data);
-        });
+    // // Make the tooltip appear on hover then disappear on mouseout
+    // node.on("mouseover", function(data) {
+    //     toolTip.show(data, this);
+    //   })
+    //     .on("mouseout", function(data, index) {
+    //       toolTip.hide(data);
+    //     });
 
   }).catch(function(error) {
     console.log(error);
