@@ -9,7 +9,7 @@ let margin = {
   top: 20,
   right: 20,
   bottom: 100,
-  left: 20
+  left: 100
 };
 
 let width = svgWidth - margin.left - margin.right;
@@ -168,15 +168,15 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
       .attr("y", 50)
       .attr("value", "income") // value to grab for event listener
       .classed("inactive", true)
-      .text("Household Income (%)");
+      .text("Household Income");
     
     // Labels for y axis
     let ylabelsGroup = chartGroup.append("g")
-    .attr("transform", `translate( ${40 - (height / 2)}, ${0 - margin.left + 30})`);
+      .attr("transform", `translate( ${margin.left - 80}, ${margin.top - 100})`);
 
     let healthcareLabel = ylabelsGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
+      .attr("y", margin.top - 100)
       .attr("x", 0 - (height / 2))
       .attr("value", "healthcare")
       .attr("dy", "1em")
@@ -185,7 +185,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
 
     let smokesLabel = ylabelsGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
+      .attr("y", margin.top - 80)
       .attr("x", 10 - (height / 2))
       .attr("value", "smokes")
       .attr("dy", "1em")
@@ -194,7 +194,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
 
     let obesityLabel = ylabelsGroup.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("y", 0 - margin.left)
+      .attr("y", margin.top - 120)
       .attr("x", 20 - (height / 2))
       .attr("value", "obesity")
       .attr("dy", "1em")
@@ -240,7 +240,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
           ageLabel
             .classed("active", false)
             .classed("inactive", true);
-          healthcareLabel
+          povertyLabel
             .classed("active", false)
             .classed("inactive", true);
           incomeLabel
@@ -271,7 +271,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
         // replaces chosenXAxis with value
         clickedYAxis = yvalue;
 
-        console.log(clickedyAxis);
+        console.log(clickedYAxis);
 
         // updates x scale for new data
         yLinearScale = yScale(data, clickedYAxis);
@@ -295,8 +295,8 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
             .classed("active", false)
             .classed("inactive", true);
         }
-        else if (clickedXAxis === "smokes") {
-          ageLabel
+        else if (clickedYAxis === "smokes") {
+          obesityLabel
             .classed("active", false)
             .classed("inactive", true);
           healthcareLabel
@@ -307,13 +307,13 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
           .classed("inactive", false);
         }
         else {
-          ageLabel
+          obesityLabel
             .classed("active", false)
             .classed("inactive", true);
           healthcareLabel
             .classed("active", true)
             .classed("inactive", false);
-          incomeLabel
+          smokesLabel
           .classed("active", false)
           .classed("inactive", true);
         }

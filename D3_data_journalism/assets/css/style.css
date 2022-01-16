@@ -34,3 +34,7 @@ body {
   font-weight: bold;
   color: darkslategrey;
 }
+
+.article {
+  margin-left: 100px;
+}
