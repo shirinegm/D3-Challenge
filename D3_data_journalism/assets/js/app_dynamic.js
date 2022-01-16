@@ -1,5 +1,5 @@
 // Start with a log
-console.log("app.js loaded")
+console.log("app_dynamic.js loaded")
 
 // Set up the svg area size
 let svgWidth = 720;
@@ -24,6 +24,40 @@ let svg = d3
 
 let chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// Define default x and y axis loaded
+let clickedXAxis = "poverty";
+let clickedYAxis = "healthcare";
+
+// Create functions to be called on click event
+// Function to update x-axis
+function xScale(data, clickedXAxis) {
+  // create scales
+  var xLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d[clickedXAxis]) * 0.8,
+      d3.max(data, d => d[clickedXAxis]) * 1.2
+    ])
+    .range([0, width]);
+
+  return xLinearScale;
+
+}
+
+// Function to update y-axis
+function yScale(data, clickedYAxis) {
+  // create scales
+  var yLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d[clickedYAxis]) * 0.8,
+      d3.max(data, d => d[clickedYAxis]) * 1.2
+    ])
+    .range([height, 0]);
+
+  return yLinearScale;
+
+}
+
+
+
 
 // Read the data
 d3.csv("./assets/data/data.csv").then(function(data, err) {
