@@ -192,7 +192,7 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
       .classed("inactive", true)
       .text("Smokers (%)");
 
-    let obeseLsabel = ylabelsGroup.append("text")
+    let obesityLabel = ylabelsGroup.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left)
       .attr("x", 20 - (height / 2))
@@ -202,7 +202,126 @@ d3.csv("./assets/data/data.csv").then(function(data, err) {
       .text("Obesity (%)");
 
 
-    // // Because I am not native to the US, I don't know the abbreviations of each state
+    // Event Listener for the X axis label group
+    xlabelsGroup.selectAll("text")
+    .on("click", function() {
+      // get value of selection
+      let xvalue = d3.select(this).attr("value");
+      if (xvalue !== clickedXAxis) {
+
+        // replaces chosenXAxis with value
+        clickedXAxis = xvalue;
+
+        console.log(clickedXAxis);
+
+        // updates x scale for new data
+        xLinearScale = xScale(data, clickedXAxis);
+
+        // updates x axis with transition
+        xAxis = renderAxes(xLinearScale, xAxis);
+
+        // updates circles with new x values
+        node = renderNodes(node, xLinearScale, clickedXAxis, yLinearScale, clickedYAxis);
+
+
+        // changes classes to change bold text
+        if (clickedXAxis === "age") {
+          ageLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          povertyLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          incomeLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        }
+        else if (clickedXAxis === "income") {
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          healthcareLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          incomeLabel
+          .classed("active", true)
+          .classed("inactive", false);
+        }
+        else {
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          povertyLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          incomeLabel
+          .classed("active", false)
+          .classed("inactive", true);
+        }
+      }
+    });
+    
+    // Event Listener for the Y axis label group
+    ylabelsGroup.selectAll("text")
+    .on("click", function() {
+      // get value of selection
+      let yvalue = d3.select(this).attr("value");
+      if (yvalue !== clickedYAxis) {
+
+        // replaces chosenXAxis with value
+        clickedYAxis = yvalue;
+
+        console.log(clickedyAxis);
+
+        // updates x scale for new data
+        yLinearScale = yScale(data, clickedYAxis);
+
+        // updates x axis with transition
+        yAxis = renderAxes(yLinearScale, yAxis);
+
+        // updates circles with new y values
+        node = renderNodes(node, xLinearScale, clickedXAxis, yLinearScale, clickedYAxis);
+
+
+        // changes classes to change bold text
+        if (clickedYAxis === "obesity") {
+          obesityLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          healthcareLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          smokesLabel
+            .classed("active", false)
+            .classed("inactive", true);
+        }
+        else if (clickedXAxis === "smokes") {
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          healthcareLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          smokesLabel
+          .classed("active", true)
+          .classed("inactive", false);
+        }
+        else {
+          ageLabel
+            .classed("active", false)
+            .classed("inactive", true);
+          healthcareLabel
+            .classed("active", true)
+            .classed("inactive", false);
+          incomeLabel
+          .classed("active", false)
+          .classed("inactive", true);
+        }
+      }
+    });
+    
+    
+      // // Because I am not native to the US, I don't know the abbreviations of each state
     // // So I need a tooltip (it also helps with overlapping circles)
     // let toolTip = d3.tip()
     //   .attr("class", "tooltip")
